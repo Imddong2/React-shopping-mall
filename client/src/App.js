@@ -20,25 +20,21 @@ const styles = theme => ({
   }
 });
 
-const products = [
-  {
-    'p_picture': 'https://placeimg.com/300/300/1',
-    'p_name': '반다나 블라우스',
-    'p_price': '24000원',
-  },
-  {
-    'p_picture': 'https://placeimg.com/300/300/2',
-    'p_name': '꽃무늬 롱스커트',
-    'p_price': '20000원',
-  },
-  {
-    'p_picture': 'https://placeimg.com/300/300/3',
-    'p_name': '루앤스커트',
-    'p_price': '21000원',
-  }
-];
-
 class App extends Component{
+
+  state={
+    products:""
+  }
+  componentDidMount(){
+    this.callApi()
+    .then(res=>this.setState({products:res}))
+    .catch(err=>console.log(err));
+  }
+  callApi=async()=>{
+    const response =await fetch('/api/products');
+    const body =await response.json();
+    return body;
+  }
   render(){
     const{ classes } =this.props;
     return(
@@ -47,7 +43,9 @@ class App extends Component{
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">products</ListSubheader>
         </GridListTile>
-        {products.map(tile => {return (<ProductList key={tile.p_picture} p_picture={tile.p_picture} p_name={tile.p_name} p_price={tile.p_price}/>);})}
+        {this.state.products ? this.state.products.map(tile => {
+          return (<ProductList key={tile.p_picture} p_picture={tile.p_picture} p_name={tile.p_name} p_price={tile.p_price}/>);
+        }):""}
         </GridList>
       </Paper>
     );

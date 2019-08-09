@@ -6,7 +6,23 @@ const port = process.env.PORT || 5000; //서버포트는 5000번 포트로 열�
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/hello', (req, res) => {
-    res.send({message:'Hello Express'});
-    });
+app.get('/api/products',(req,res)=>{
+    res.send([
+        {
+          'p_picture': 'https://placeimg.com/300/300/1',
+          'p_name': '반다나 블라우스',
+          'p_price': '24000원',
+        },
+        {
+          'p_picture': 'https://placeimg.com/300/300/2',
+          'p_name': '꽃무늬 롱스커트',
+          'p_price': '20000원',
+        },
+        {
+          'p_picture': 'https://placeimg.com/300/300/3',
+          'p_name': '루앤스커트',
+          'p_price': '21000원',
+        }
+      ]);
+})
 app.listen(port, () => console.log(`Listening on port ${port}`));
